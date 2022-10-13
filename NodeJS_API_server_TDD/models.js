@@ -1,4 +1,4 @@
-const Sequelize = require('learn-sequelize');
+const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './db.sqlite',
