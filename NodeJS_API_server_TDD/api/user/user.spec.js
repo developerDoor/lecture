@@ -12,7 +12,7 @@ describe('GET /users는', () => {
     describe('성공시', () => {
 
         // before(done=>{ //db 싱크는 비동기로 작업하는 일이기 때문에! 왜냐면 파일에 접근하는 일이 있기 때문!
-        //     models.sequelize.sync({force:true}).then(_=>done());
+        //     models.learn-sequelize.sync({force:true}).then(_=>done());
         // }) //it이 실행될 때 먼저 실행되는 후커 함수
         it('유저 객체를 담은 배열로 응답한다.', (done) => {
             request(app) //supertest에 express 객체를 넘겨줌
