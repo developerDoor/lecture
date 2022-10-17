@@ -2,7 +2,7 @@
 
 const id = document.querySelector("#id"),
     psword = document.querySelector("#psword"),
-    loginBtn =document.querySelector("button");
+    loginBtn =document.querySelector("#button");
 
 loginBtn.addEventListener("click", login);
 
@@ -20,11 +20,11 @@ function login() {
         body : JSON.stringify(req),
     }).then((res) => res.json())
       .then((res) => {
-          // if (res.success) {
-          //     location.href = "/"; // 루트 경로로 이동한다.
-          // } else {
-          //     alert(res.msg);
-          // }
+          if (res.success) {
+              location.href = "/"; // 루트 경로로 이동한다.
+          } else {
+              alert(res.msg);
+          }
       })
         .catch((err) => {
           console.error("로그인 중 에러 발생");
