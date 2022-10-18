@@ -1,63 +1,30 @@
 "use strict";
 
-const fs = require('fs').promises;
+const db = require('../config/db');
 
 class UserStorage {
-    static #getUserInfo(data, id) {
-        const users = JSON.parse(data);
-        const idx = users.id.indexOf(id);
-        const usersKeys = Object.keys(users); //users의 key값들만 배열로 반환한다. [id, psword, name]
-        const userInfo = usersKeys.reduce((newUser, info) => {
-            newUser[info] = users[info][idx];
-            return newUser;
-        }, {});
-
-        return userInfo;
-    }
-
-    static #getUsers(data, isAll, fields) {
-        const users = JSON.parse(data);
-        if(isAll) return users;
-
-        const newUsers = fields.reduce((newUsers, field) => {
-            if (users.hasOwnProperty(field)) {
-                newUsers[field] = users[field];
-            }
-            return newUsers;
-        }, {});
-        return newUsers ;
-    }
-
-    static getUsers(isAll,...fields) {
-        return fs.readFile("./src/databases/users.json")
-            .then((data) => {
-                return this.#getUsers(data, isAll, fields);
-            })
-            .catch(console.error);
-            //.catch((err) => console.error(err));
-    };
-
     static getUserInfo(id) {
-        return fs.readFile("./src/databases/users.json")
-            .then((data) => {
-                return this.#getUserInfo(data, id);
-            })
-            .catch(console.error);
-            //.catch((err) => console.error(err));
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT * FROM users WHERE id = ?;';
+            db.query(query, [id], (err, data) => {
+                if(err) reject(`${err}`);
+                console.log(data[0]);
+                resolve(data[0]);
+                });
+        });
     }
-
-
 
     static async save(userInfo) {
-        const users = await this.getUsers(true);
-        if(users.id.includes(userInfo.id)) {
-            throw Error("이미 존재하는 아이디입니다.");
-        }
-        users.id.push(userInfo.id);
-        users.name.push(userInfo.name);
-        users.psword.push(userInfo.psword);
-        fs.writeFile("./src/databases/users.json", JSON.stringify(users)) // 첫번째 파라미터 : 경로, 두번째 파라미터 : 데이터
-        return { success : true }
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO users(id, name, psword) VALUES(?, ?, ?)';
+            db.query(
+                query,
+                [userInfo.id, userInfo.name, userInfo.psword],
+                (err) => {
+                    if(err) reject(`${err}`);
+                    resolve({ success : true });
+            });
+        });
     }
 }
 
