@@ -32,6 +32,7 @@ function register() {
             if (res.success) {
                 location.href = "/login"; // 루트 경로로 이동한다.
             } else {
+                if(res.err) return alert(res.err);
                 alert(res.msg);
             }
         })

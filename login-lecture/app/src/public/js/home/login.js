@@ -7,6 +7,10 @@ const id = document.querySelector("#id"),
 loginBtn.addEventListener("click", login);
 
 function login() {
+    if(!id.value) return alert("아이디를 입력해주세요");
+    if(!psword.value) return alert("비밀번호를 입력해주십시오.");
+
+
     const req = {
         id : id.value,
         psword : psword.value
@@ -23,6 +27,7 @@ function login() {
           if (res.success) {
               location.href = "/"; // 루트 경로로 이동한다.
           } else {
+              if(res.err) return alert(res.err);
               alert(res.msg);
           }
       })
@@ -30,3 +35,4 @@ function login() {
           console.error("로그인 중 에러 발생");
         })
 }
+s

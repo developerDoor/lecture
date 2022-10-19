@@ -5,11 +5,10 @@ const db = require('../config/db');
 class UserStorage {
     static getUserInfo(id) {
         return new Promise((resolve, reject) => {
-            const query = 'SELECT * FROM users WHERE id = ?;';
+            const query = 'SELECT * FROM user WHERE id = ?;';
             db.query(query, [id], (err, data) => {
                 if(err) reject(`${err}`);
-                console.log(data[0]);
-                resolve(data[0]);
+                else resolve(data[0]);
                 });
         });
     }
@@ -22,7 +21,7 @@ class UserStorage {
                 [userInfo.id, userInfo.name, userInfo.psword],
                 (err) => {
                     if(err) reject(`${err}`);
-                    resolve({ success : true });
+                    else resolve({ success : true });
             });
         });
     }
