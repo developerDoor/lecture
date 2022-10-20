@@ -28,7 +28,7 @@ const process = {
         const url = {
             method: "POST",
             path: "/login",
-            status: response.err ? 400 : 200,
+            status: response.err ? 400 : 201,
         };
 
         log(response, url);
