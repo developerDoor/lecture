@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-
+const passport = require('passport');
 const router = express.Router();
 
 // 회원가입 라우터
